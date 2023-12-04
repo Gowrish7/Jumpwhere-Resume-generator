@@ -48,7 +48,6 @@
             </ul>
         </nav>
 
-        <!-- Page Content  -->
         <div id="content">
             <header>
                 <h1>Assigned Projects List</h1>
@@ -64,29 +63,26 @@
                         </tr>
                     </thead>
                     <tbody id="projectTableBody">
-                        <!-- Table content will be dynamically populated by JavaScript -->
+                        
                     </tbody>
                 </table>
             </div>
 
             <script>
                 function getDataInAssignedProjects() {
-                    // Define the API endpoint
+                    
                     const apiUrl = 'http://localhost:8000/api/project/empproj';
-            
-                    // Log that the API call is being initiated
+
+                    
                     console.log('Fetching data from API...');
-            
-                    // Perform a POST request using the fetch API
+
+                    
                     fetch(apiUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        // Assuming you need to send some data in the request body, modify this object accordingly
-                        body: JSON.stringify({
-                            // Add any data needed for the POST request
-                        }),
+                        body: JSON.stringify({}),
                     })
                         .then(response => {
                             if (!response.ok) {
@@ -95,15 +91,14 @@
                             return response.json();
                         })
                         .then(data => {
-                            // Log the data received from the API
+                            
                             console.log('Data received:', data);
-            
+
                             // Display the data on the screen
                             const projectTableBody = document.getElementById('projectTableBody');
-                            projectTableBody.innerHTML = ''; // Clear existing table rows
-            
+                            projectTableBody.innerHTML = '';
+
                             if (!data.projects || data.projects.length === 0) {
-                                // Display a message if there are no assigned projects
                                 projectTableBody.innerHTML = '<tr><td colspan="3">No assigned projects found.</td></tr>';
                             } else {
                                 data.projects.forEach((employee, rowIndex) => {
@@ -113,7 +108,7 @@
                                         <td>${employee.mappedproject.join(', ')}</td>
                                         <td>
                                             <button onclick="editAssignment('${employee.name}')">Edit</button>
-                                            <button onclick="deleteAssignment('${employee.name}')">Delete</button>
+                                            <button onclick="deleteEmployee('${employee.name}')">Delete</button>
                                         </td>
                                     `;
                                     projectTableBody.appendChild(row);
@@ -121,30 +116,34 @@
                             }
                         })
                         .catch(error => {
-                            // Log any errors that occurred during the API call
                             console.error('Error fetching data:', error);
-            
-                            // Display an error message on the UI
                             const projectTableBody = document.getElementById('projectTableBody');
                             projectTableBody.innerHTML = '<tr><td colspan="3">Error fetching data from the server.</td></tr>';
                         });
                 }
-            
-                // Call the function to fetch data when the DOM is fully loaded
+
                 document.addEventListener('DOMContentLoaded', getDataInAssignedProjects);
-            
+
                 function editAssignment(name) {
                     window.location.href = 'MappingProjectList.html';
                     console.log(`Editing assignment for ${name}`);
                 }
-            
-                function deleteAssignment(name) {
-                    // Implement your logic for deleting an assignment
-                    console.log(`Deleting assignment for ${name}`);
-            
-                   
-                    fetch(`http://localhost:8000/api/employee/deleteassociate`, {
+
+                function deleteEmployee(name) {
+                    const confirmDeletion = confirm(`Are you sure you want to delete the employee: ${name}?`);
+
+                    if (!confirmDeletion) {
+                        return;
+                    }
+
+                    fetch(`http://localhost:8000/api/employee/delete`, {
                         method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                        }),
                     })
                         .then(response => {
                             if (!response.ok) {
@@ -153,15 +152,13 @@
                             return response.json();
                         })
                         .then(data => {
-                            console.log('Assignment deleted:', data);
-                            // After successful deletion, you might want to refresh the data on the page
+                            console.log('Employee deleted:', data);
                             getDataInAssignedProjects();
                         })
                         .catch(error => {
-                            console.error('Error deleting assignment:', error);
+                            console.error('Error deleting employee:', error);
                         });
-                    }
-            
+                }
             </script>
         </div>
     </div>
