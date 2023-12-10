@@ -5,7 +5,4 @@
 3. Now install Virtual Envirornment for installing all the packages for the project . - pip install virtualenv
 4. Go into the virtual env using the command ./venv/Scripts/activate .
 5. Once you are in the venv install all the packages for the project .
-
-./venv/Scripts/activate
-
 python manage.py runserver
