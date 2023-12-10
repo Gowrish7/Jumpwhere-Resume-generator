@@ -16,5 +16,7 @@
 14. Now start the python server by using the below command
 python manage.py runserver
 
-Once the backend code is running without any errors navigate to frontend code and open login.html and use id : admin and pass : admin123 
+Once the backend code is running without any errors navigate to frontend code and open login.html and use 
+id : admin and 
+pass : admin123 
 All the crud operations and functionality are included in the code only front end changes according to thier design can be done .
