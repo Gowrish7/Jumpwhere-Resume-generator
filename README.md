@@ -11,5 +11,8 @@
 9. pip install html5
 10. pip install reportlab
 11. pip install xhtml2pdf
-12. pip install 
+12. pip install django-cors-headers
+13. Now start the python server by using the below command
 python manage.py runserver
+
+Once the backend code is running without any errors navigate to frontend code and open login.html and use id : admin and pass : admin123 
